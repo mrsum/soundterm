@@ -18,14 +18,14 @@ const Search = class Search {
       top: '0%',
       left: 1,
       width: '100%-4',
-      height: '10%',
+      height: 3,
       keys: true,
       fg: 'white',
       selectedFg: 'white',
       selectedBg: 'blue',
       label: 'Search:',
       border: {
-        type: 'line', fg: '#ffffff'
+        type: 'line', fg: 'blue'
       }
     });
 
@@ -34,14 +34,11 @@ const Search = class Search {
       name: 'q',
       top: '10%',
       left: '0%',
-      width: '99%',
-      height: 3,
+      width: '100%-6',
+      height: 1,
       input: true,
       inputOnFocus: true,
-      keys: true,
-      border: {
-        type: 'line', fg: '#ffffff'
-      }
+      keys: true
     });
 
     form.on('submit', function(data) {

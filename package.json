@@ -15,7 +15,6 @@
     "follow-redirects": "0.2.0",
     "lame": "1.2.4",
     "node-fetch": "1.6.0",
-    "pcm-volume": "1.0.0",
     "speaker": "0.3.0"
   },
   "devDependencies": {

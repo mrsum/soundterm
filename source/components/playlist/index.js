@@ -21,7 +21,7 @@ const Playlist = class Playlist {
   render() {
     var list = blessed.list({
       parent: this.screen,
-      top: '10%',
+      top: '8%',
       left: 1,
       width: '100%-4',
       height: '88%',
