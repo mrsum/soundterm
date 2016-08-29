@@ -50,6 +50,10 @@ const Search = class Search {
       textarea.clearValue();
     });
 
+    textarea.key(['esc'], function() {
+      textarea.clearValue();
+    });
+
     return textarea;
   }
 };
