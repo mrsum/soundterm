@@ -11,10 +11,11 @@ const Player = class Player {
 
   constructor() {
     Events.on('song:play', song => this.play(song));
-    Events.on('song:stop', song => this.stop(song));
+    Events.on('song:stop', () => this.stop());
 
-    this.resource = false;
+    this.decoder = false;
     this.speaker = false;
+    this.resource = false;
   }
 
   play(song) {
@@ -23,8 +24,8 @@ const Player = class Player {
     })
     .then(resource => {
       if (this.stop()) {
-        this.decoder = new lame.Decoder();
-        this.speaker = new Speaker();
+        this.decoder  = new lame.Decoder();
+        this.speaker  = new Speaker();
         this.resource = resource;
       }
 
