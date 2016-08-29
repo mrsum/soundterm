@@ -10,45 +10,43 @@ const Events = require('./events');
 const Player = class Player {
 
   constructor() {
-    this.speaker = false;
-    this.decoder = false;
-
     Events.on('song:play', song => this.play(song));
     Events.on('song:stop', song => this.stop(song));
+
+    this.resource = false;
+    this.speaker = false;
   }
 
   play(song) {
-    var setSpeaker = speaker => {
-      this.speaker
-        ? this.stop()
-        : null;
-
-      this.speaker = speaker;
-
-      return speaker;
-    };
-
     new Promise(resolve => {
       this.download(song.url, resolve);
     })
-    .then(res => {
-      this.decoder = new lame.Decoder();
-      res
+    .then(resource => {
+      if (this.stop()) {
+        this.decoder = new lame.Decoder();
+        this.speaker = new Speaker();
+        this.resource = resource;
+      }
+
+      return resource;
+    })
+    .then(resource => {
+      resource
         .pipe(this.decoder)
-        .on('format', function(format) {
-          this.pipe(setSpeaker(new Speaker(format)));
-        });
+        .pipe(this.speaker);
     });
   }
 
   stop() {
-    this.decoder.unpipe();
     this.speaker
-      ? this.speaker.close()
+      ? this.speaker.end()
       : null;
 
+    this.resource
+      ? this.resource.unpipe()
+      : null;
 
-    this.speaker = false;
+    return true;
   }
 
   download(url, resolve) {
