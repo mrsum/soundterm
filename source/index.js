@@ -22,7 +22,13 @@ const Player = class Player {
       smartCSR: true,
       dockBorders: true,
       fullUnicode: true,
-      warnings: false
+      cursor: {
+        artificial: true,
+        blink: true,
+        shape: 'underline'
+      },
+      log: `${__dirname}/application.log`,
+      debug: true
     });
 
     // set title
@@ -44,6 +50,14 @@ const Player = class Player {
           Events.emit('loading:tracks', json);
         });
     });
+
+    SC.get('/tracks', { limit: 50 })
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        Events.emit('loading:tracks', json);
+      });
 
     Events.on('render', () => {
       this.screen.render();

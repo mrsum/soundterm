@@ -3,7 +3,7 @@
 // Depends
 const blessed = require('blessed');
 
-const search = require('../components/search');
+const command = require('../components/command');
 const playlist = require('../components/playlist');
 
 const PlayerScreen = class PlayerScreen {
@@ -33,15 +33,15 @@ const PlayerScreen = class PlayerScreen {
       }
     });
 
-    var searchComponent = search(soundtermBox, {}).render();
     var playlistComponent = playlist(soundtermBox, {}).render();
+    var commandComponent = command(soundtermBox, {}).render();
 
-    this.screen.key(['S-up'], () => {
-      searchComponent.focus();
+    this.screen.key(['S-p'], () => {
+      playlistComponent.focus();
     });
 
-    this.screen.key(['S-down'], () => {
-      playlistComponent.focus();
+    this.screen.key(['S-c'], () => {
+      commandComponent.focus();
     });
 
     return soundtermBox;

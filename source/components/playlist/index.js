@@ -21,10 +21,10 @@ const Playlist = class Playlist {
   render() {
     var list = blessed.list({
       parent: this.screen,
-      top: '8%',
+      top: '0%',
       left: 1,
       width: '100%-4',
-      height: '88%',
+      height: '92%',
       keys: true,
       fg: 'white',
       selectedFg: 'white',
@@ -33,6 +33,12 @@ const Playlist = class Playlist {
       label: 'Playlist:',
       border: {
         type: 'line', fg: '#ffffff'
+      },
+      padding: {
+        top: 1,
+        left: 2,
+        right: 2,
+        bottom: 2
       }
     });
 
@@ -41,8 +47,8 @@ const Playlist = class Playlist {
         return { id: item.id, title: item.title, duration: item.duration };
       });
 
-      list.setItems(this.tracks.map(item => {
-        return item.title;
+      list.setItems(this.tracks.map((item, key) => {
+        return `${key + 1} | ${item.title}`;
       }));
 
       Events.emit('render');

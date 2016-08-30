@@ -2,7 +2,7 @@
 const blessed = require('blessed');
 const Events = require('../../libs/events');
 
-const Search = class Search {
+const Command = class Command {
 
   constructor(screen, params) {
     this.screen = screen;
@@ -15,7 +15,7 @@ const Search = class Search {
   render() {
     var form = blessed.form({
       parent: this.screen,
-      top: '0%',
+      bottom: 0,
       left: 1,
       width: '100%-4',
       height: 3,
@@ -23,9 +23,13 @@ const Search = class Search {
       fg: 'white',
       selectedFg: 'white',
       selectedBg: 'blue',
-      label: 'Search:',
+      label: 'Command:',
       border: {
         type: 'line', fg: 'blue'
+      },
+      padding: {
+        left: 1,
+        right: 1
       }
     });
 
@@ -59,5 +63,5 @@ const Search = class Search {
 };
 
 module.exports = function(params) {
-  return new Search(params);
+  return new Command(params);
 };

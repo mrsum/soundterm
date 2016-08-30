@@ -13,41 +13,61 @@ const Player = class Player {
     Events.on('song:play', song => this.play(song));
     Events.on('song:stop', () => this.stop());
 
-    this.decoder = false;
-    this.speaker = false;
-    this.resource = false;
+    this._stream  = null;
+    this._decoder = null;
   }
 
   play(song) {
     new Promise(resolve => {
       this.download(song.url, resolve);
     })
-    .then(resource => {
-      if (this.stop()) {
-        this.decoder  = new lame.Decoder();
-        this.speaker  = new Speaker();
-        this.resource = resource;
-      }
-
-      return resource;
-    })
-    .then(resource => {
-      resource
-        .pipe(this.decoder)
-        .pipe(this.speaker);
+    .then(stream => {
+      return this.createDecoder(stream);
     });
   }
 
+
+  createDecoder(stream) {
+    this.deinit();
+
+    stream.on('error', this.onError);
+    stream.on('close', this.onDecoderClosed);
+
+    this._stream = stream;
+    this._decoder = stream.pipe(new lame.Decoder);
+    this._decoder
+			.pipe(new Speaker({}))
+			.on('error', this.onError)
+			.on('close', this.onDecoderClosed);
+  }
+
+  onError() {
+    return this.stop();
+  }
+
   stop() {
-    this.speaker
-      ? this.speaker.end()
-      : null;
+    this.deinit();
+    return Promise.resolve();
+  }
 
-    this.resource
-      ? this.resource.unpipe()
-      : null;
+  deinit() {
+    if (this._stream) {
+      this._stream.removeAllListeners('close');
+      this._stream.destroy();
+      this._stream.removeAllListeners('error');
+      this._stream = null;
+    }
 
-    return true;
+    if (this._decoder) {
+      this._decoder.removeAllListeners('close');
+      this._decoder.removeAllListeners('error');
+      this._decoder.unpipe();
+      this._decoder = null;
+    }
+  }
+
+  onDecoderClosed() {
+    return this.deinit();
   }
 
   download(url, resolve) {
