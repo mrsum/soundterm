@@ -1,6 +1,6 @@
 ## Minimal SoundCloud terminal player
 
-![soundterm](https://mrsum.ru/blog/content/images/2016/08/soundterm-1.png)
+![soundterm](https://mrsum.ru/blog/content/images/2016/08/soundterm-image.png)
 
 #### Keys
 ```bash
