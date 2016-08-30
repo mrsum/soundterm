@@ -3,9 +3,10 @@
 ![soundterm](https://mrsum.ru/blog/content/images/2016/08/soundterm-1.png)
 
 #### Keys
-
-*Shift + C* - go to command area
-*Shift + P* - go to playlist area
+```bash
+Shift + C - go to command area
+Shift + P - go to playlist area
+```
 
 #### Commands
 ```bash
